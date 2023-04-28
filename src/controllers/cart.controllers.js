@@ -19,7 +19,7 @@ export async function addCartProduct(req, res) {
     }
     res.send("Item adicionado ao carrinho!");
   } catch (err) {
-    console.log(err);
+    res.status(500).send(err.message);
   }
 }
 
@@ -44,7 +44,7 @@ export async function deleteCartProduct(req, res) {
 
     res.send("Item deletado do carrinho!");
   } catch (err) {
-    console.log(err);
+    res.status(500).send(err.message);
   }
 }
 
@@ -61,6 +61,6 @@ export async function getCart(req, res) {
       .toArray();
     res.send(cartProducts);
   } catch (err) {
-    console.log(err);
+    res.status(500).send(err.message);
   }
 }

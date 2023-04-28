@@ -22,7 +22,7 @@ export async function validateProductDB(req,res,next){
         console.log(productExists);
         next();
     } catch (err) {
-        console.log(err.message);
+        res.status(500).send(err.message);
     }
 
 }
