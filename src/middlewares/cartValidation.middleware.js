@@ -19,7 +19,6 @@ export async function validateProductDB(req,res,next){
     try {
         const productExists = await db.collection("products").findOne({_id:productId});
         if(!productExists) return res.status(404).send("Produto não encontrado!");
-        console.log(productExists);
         next();
     } catch (err) {
         res.status(500).send(err.message);
