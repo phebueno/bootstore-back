@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import router from "./middelwares/indexRouter.js";
+import router from "./Routers/index.routes.js";
 
 
 
