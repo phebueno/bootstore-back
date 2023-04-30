@@ -9,6 +9,20 @@ export async function listAllProducts(req, res) {
   }
 }
 
+export async function listCategoryProducts(req, res) {
+  const { category } = req.params;
+
+  try {
+    const filteredProducts = await db
+      .collection("products")
+      .find({ category })
+      .toArray();
+    res.send(filteredProducts);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
+
 //Para ajudar a popular o banco de dados
 // export async function addProduct(req, res) {
 //   const product = req.body;
