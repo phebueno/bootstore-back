@@ -88,3 +88,27 @@ export async function getCart(req, res) {
     res.status(500).send(err.message);
   }
 }
+
+export async function createCart(req, res) {
+  try {
+    //TRANSFERIR O CÓDIGO PARA O FIM DO CADASTRO DE USUÁRIO
+    await db
+      .collection("carts")
+      .insertOne({ userId: user._id, productidList: [] });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+}
+
+export async function saveCart(req, res) {
+  const session = res.locals.session;
+  const { productIdList } = req.body;
+  try {
+    await db
+      .collection("carts")
+      .updateOne({ userId: session.userId }, { $set: {productIdList} });
+    res.send("Carrinho atualizado com sucesso!");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+}
