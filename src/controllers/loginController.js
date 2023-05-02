@@ -12,7 +12,7 @@ export async function register(req, res) {
         const hash = bcrypt.hashSync(password, 10)
 
         const newUser = await db.collection("users").insertOne({ name, email, password: hash })
-        await db.collection("carts").insertOne({ userId: newUser.insertedId, productidList: [] });  
+        await db.collection("carts").insertOne({ userId: newUser.insertedId, productIdList: [] });  
         res.sendStatus(201)
     } catch (err) {
         res.status(500).send(err.message)

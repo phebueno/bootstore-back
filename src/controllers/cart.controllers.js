@@ -104,12 +104,12 @@ export async function saveCart(req, res) {
 
 export async function checkoutCart(req, res) {
   const session = res.locals.session;
-  
+
   try {
-    await db
-      .collection("carts")
-      .updateOne({ userId: session.userId }, { $set: {productIdList} });
-    res.send("Carrinho atualizado com sucesso!");
+    // await db
+    //   .collection("carts")
+    //   .updateOne({ userId: session.userId }, { $set: {productIdList} });
+    res.send(req.body);
   } catch (err) {
     res.status(500).send(err.message);
   }

@@ -8,3 +8,8 @@ export const cartUpdateSchema = joi.array().items(joi.object({
     productId:joi.string().hex().length(24).required(),
     qty:joi.number().positive().greater(0).required()
 }));
+
+export const cartCheckoutSchema = joi.object({
+    adress:joi.string().required(),
+    total: joi.number().precision(2).sign("positive").strict().required()
+});
