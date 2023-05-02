@@ -112,3 +112,16 @@ export async function saveCart(req, res) {
     res.status(500).send(err.message);
   }
 }
+
+export async function checkoutCart(req, res) {
+  const session = res.locals.session;
+  
+  try {
+    await db
+      .collection("carts")
+      .updateOne({ userId: session.userId }, { $set: {productIdList} });
+    res.send("Carrinho atualizado com sucesso!");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+}
