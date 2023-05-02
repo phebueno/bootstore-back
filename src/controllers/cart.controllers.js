@@ -83,6 +83,9 @@ export async function getCart(req, res) {
         ),
       });
     }
+    productQty.forEach((object) => {
+      delete object["_id"];
+    });
     res.send(productQty);
   } catch (err) {
     res.status(500).send(err.message);
@@ -95,7 +98,7 @@ export async function saveCart(req, res) {
   try {
     await db
       .collection("carts")
-      .updateOne({ userId: session.userId }, { $set: {productIdList} });
+      .updateOne({ userId: session.userId }, { $set: { productIdList } });
     res.send("Carrinho atualizado com sucesso!");
   } catch (err) {
     res.status(500).send(err.message);
@@ -104,12 +107,17 @@ export async function saveCart(req, res) {
 
 export async function checkoutCart(req, res) {
   const session = res.locals.session;
-
   try {
-    // await db
-    //   .collection("carts")
-    //   .updateOne({ userId: session.userId }, { $set: {productIdList} });
-    res.send(req.body);
+    const ordered = await db
+      .collection("orders")
+      .insertOne({ userId: session.userId, ...req.body });
+    if (!ordered)
+      return res.status(404).send("Seu pedido não foi encontrado! Tente novamente.");
+    await db
+      .collection("carts")
+      .updateOne({ userId: session.userId }, { $set: { productIdList: [] } });
+
+    res.send({ userId: session.userId, ...req.body });
   } catch (err) {
     res.status(500).send(err.message);
   }

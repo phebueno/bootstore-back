@@ -28,8 +28,8 @@ export async function validateProductDB(req,res,next){
 
 export function validateArrayProducts(schema){
   return (req, res, next) => {
-    const validation = schema.validate(req.body.productIdList);
-    console.log(req.body.productIdList);
+    if(!req.body.productIdList) return res.status(422).send("Não há produtos escolhidos!");
+    const validation = schema.validate(req.body.productIdList);    
     if (validation.error) {
       const errors = validation.error.details.map((detail) => detail.message);
       return res.status(422).send(errors);
@@ -41,8 +41,8 @@ export function validateArrayProducts(schema){
 
 export function validateCheckout(schema){
   return (req, res, next) => {
-    const validation = schema.validate(req.body.productIdList);
-
+    const {productIdList, ...restOfBody} = req.body;
+    const validation = schema.validate(restOfBody, { abortEarly: false });
     if (validation.error) {
       const errors = validation.error.details.map((detail) => detail.message);
       return res.status(422).send(errors);
