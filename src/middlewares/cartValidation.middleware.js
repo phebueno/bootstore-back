@@ -25,3 +25,29 @@ export async function validateProductDB(req,res,next){
     }
 
 }
+
+export function validateArrayProducts(schema){
+  return (req, res, next) => {
+    if(!req.body.productIdList) return res.status(422).send("Não há produtos escolhidos!");
+    const validation = schema.validate(req.body.productIdList);    
+    if (validation.error) {
+      const errors = validation.error.details.map((detail) => detail.message);
+      return res.status(422).send(errors);
+    }
+
+    next();
+  };
+}
+
+export function validateCheckout(schema){
+  return (req, res, next) => {
+    const {productIdList, ...restOfBody} = req.body;
+    const validation = schema.validate(restOfBody, { abortEarly: false });
+    if (validation.error) {
+      const errors = validation.error.details.map((detail) => detail.message);
+      return res.status(422).send(errors);
+    }
+
+    next();
+  };
+}
