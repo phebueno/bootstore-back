@@ -22,14 +22,3 @@ export async function listCategoryProducts(req, res) {
     return res.status(500).send(err.message);
   }
 }
-
-//Para ajudar a popular o banco de dados
-// export async function addProduct(req, res) {
-//   const product = req.body;
-//   try {
-//     await db.collection("products").insertOne(product);
-//     res.sendStatus(201);
-//   } catch (err) {
-//     return res.status(500).send(err.message);
-//   }
-// }
