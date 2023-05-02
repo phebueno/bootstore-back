@@ -4,7 +4,8 @@ import userRouter from "./user.routes.js"
 
 
 const router = Router();
-router.use(cartRouter);
+
 router.use(userRouter)
+router.use(cartRouter);
 
 export default router;
